@@ -7,6 +7,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -34,27 +35,6 @@ public abstract class Pessoa {
     private String sexo;
 
     @Column(name = "data_nascimento")
-    private Date dataNascimento;
+    private LocalDate dataNascimento;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinTable(name = "pessoas_enderecos", joinColumns = @JoinColumn(name = "pessoa_id"), inverseJoinColumns = @JoinColumn(name = "endereco_id"))
-    private List<Endereco> listaEnderecos ;
-
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinTable(name = "pessoas_contatos", joinColumns = @JoinColumn(name = "pessoa_id"), inverseJoinColumns = @JoinColumn(name = "contato_id"))
-    private List<Contato> listaContatos ;
-
-    public List<Contato> getListaContatos() {
-        if (listaContatos == null){
-            return new ArrayList<>();
-        }
-        return listaContatos;
-    }
-
-    public List<Endereco> getListaEnderecos() {
-        if (listaEnderecos == null){
-            return new ArrayList<>();
-        }
-        return listaEnderecos;
-    }
 }

@@ -1,5 +1,7 @@
 package br.com.anydev.anytriagem.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,19 +21,20 @@ public class Consulta {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "nome_consulta")
-    private String nomeConsulta;
+    @Column(name = "tipoConsulta")
+    private TipoConsultaEnum tipoConsulta;
 
     @ManyToOne
     @JoinColumn(name = "paciente_id")
     private Paciente paciente;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "medico_id")
     private Medico medico;
 
     @Column(name = "cid")
-    private String CID;
+    private String cid;
 
     @Column(name = "horario")
     private Date horario;

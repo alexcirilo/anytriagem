@@ -1,5 +1,6 @@
 package br.com.anydev.anytriagem.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,11 +28,14 @@ public class Endereco {
     @Column(name = "numero")
     private String numero;
 
+    @Column(name = "complemento")
+    private String complemento;
+
     @Column(name = "bairro")
     private String bairro;
 
-    @Column(name = "complemento")
-    private String complemento;
+    @Column(name = "cidade")
+    private String cidade;
 
     @Column(name = "estado")
     private String estado;

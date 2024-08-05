@@ -1,5 +1,6 @@
 package br.com.anydev.anytriagem.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,11 +25,12 @@ public class Medico extends Pessoa{
     private String especialidade;
 
     @Column(name = "crm")
-    private int CRM;
+    private int crm;
 
     @Column(name = "uf_crm")
-    private String UF_CRM;
+    private String ufCrm;
 
+    @JsonManagedReference
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "medico",cascade = CascadeType.ALL,orphanRemoval = true)
     List<Consulta> listaConsultas;
 

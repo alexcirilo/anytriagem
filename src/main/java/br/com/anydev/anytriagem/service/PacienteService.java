@@ -1,5 +1,7 @@
 package br.com.anydev.anytriagem.service;
 
+import br.com.anydev.anytriagem.exception.InternalServerException;
+import br.com.anydev.anytriagem.exception.NotFoundException;
 import br.com.anydev.anytriagem.model.dto.PacienteDto;
 import br.com.anydev.anytriagem.model.entity.Contato;
 import br.com.anydev.anytriagem.model.entity.Endereco;
@@ -29,17 +31,20 @@ public class PacienteService {
         return repository.findAll();
     }
 
-    public Paciente findById(Long id) throws Exception {
+    public PacienteDto findById(Long id) throws Exception {
         try {
-            return repository.findById(id).orElseThrow(()-> new Exception("Paciente não encontrado"));
+            Paciente paciente = repository.findById(id).orElseThrow(()-> new NotFoundException("Paciente não encontrado"));
+
+            return mapper.toDto(paciente);
 
         }catch (Exception e){
-            throw new Exception(e);
+            throw new InternalServerException(e.getMessage());
         }
 
     }
 
     public PacienteDto create(PacienteDto dto) {
+
 
         Paciente paciente = mapper.toEntity(dto);
 
@@ -48,5 +53,33 @@ public class PacienteService {
         dto = mapper.toDto(paciente);
 
         return dto;
+    }
+
+    public PacienteDto update(Long id, PacienteDto dto) {
+        try {
+            if (id != null){
+                dto.setId(id);
+                Paciente paciente = mapper.toEntity(dto);
+                repository.save(paciente);
+                return mapper.toDto(paciente);
+            }
+        }catch (Exception e){
+            throw new InternalServerException(e.getMessage());
+        }
+        return null;
+    }
+
+    public void delete(Long id) throws Exception {
+        try {
+            if (id == null){
+                throw new NotFoundException("ID não pode ser nulo");
+            }
+            Paciente paciente = repository.findById(id).orElseThrow(() -> new NotFoundException("Paciente não encontrado"));
+            repository.delete(paciente);
+        }catch (Exception e){
+            throw new InternalServerException(e.getMessage());
+        }
+
+
     }
 }

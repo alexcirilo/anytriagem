@@ -39,13 +39,18 @@ public class PacienteController {
         PacienteDto pacienteDto = service.create(dto);
         return new ResponseEntity<>(pacienteDto,HttpStatus.CREATED);
     }
-
-    @PostMapping("/salvar")
-    @ResponseStatus(HttpStatus.CREATED)
-    public PacienteDto salvarPaciente(@RequestBody PacienteDto dto){
-        return service.create(dto);
+    @Operation(summary = "Atualiza o paciente")
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody PacienteDto dto) throws Exception {
+        PacienteDto pacienteDto = service.update(id, dto);
+        return new ResponseEntity<>(pacienteDto,HttpStatus.CREATED);
     }
 
-
-
+    @Operation(summary = "remove o paciente")
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable(value = "id") Long id) throws Exception {
+        service.delete(id);
+    }
 }
